@@ -125,6 +125,18 @@
   .stat-row .num{font-family:'Space Grotesk',sans-serif;font-size:2.1rem;font-weight:700;color:var(--teal-dark);}
   .stat-row .lbl{font-size:.8rem;color:#777;margin-top:4px;}
 
+  /* GALLERY */
+  .gallery{background:var(--white);}
+  .gal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  .gal-grid img{
+    width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:2px;
+    display:block;transition:transform .3s;
+  }
+  .gal-item{overflow:hidden;border-radius:2px;}
+  .gal-item:hover img{transform:scale(1.05);}
+  @media (max-width:900px){ .gal-grid{grid-template-columns:repeat(3,1fr);} }
+  @media (max-width:560px){ .gal-grid{grid-template-columns:repeat(2,1fr);gap:10px;} }
+
   /* SERVICES */
   .services{background:var(--offwhite);}
   .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
@@ -207,7 +219,7 @@
 <header>
   <div class="wrap navrow">
     <div class="logo-mark">
-      <img src="images/logo-white.png" alt="WM Electrical Group" style="height:44px;width:auto;">
+      <img src="images/logo-grey-text.png" alt="WM Electrical Group" style="height:44px;width:auto;display:block;">
     </div>
     <nav class="links">
       <a href="#about">About</a>
@@ -236,13 +248,8 @@
         <div><span class="dot"></span> Same-Week Availability</div>
       </div>
     </div>
-    <div class="hero-visual">
-      <svg class="peak-svg" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M20 40 L110 260 L180 110" stroke="#4FB3AC" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
-        <path d="M180 110 L230 40 L280 110 L230 260 L180 110" stroke="#4FB3AC" stroke-width="6" stroke-linejoin="round" opacity="0.9"/>
-        <path d="M195 110 L240 40 L285 110 L240 260 L195 110" stroke="#FFFFFF" stroke-width="6" stroke-linejoin="round" opacity="0.5"/>
-        <path d="M285 110 L345 40 L390 250" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
-      </svg>
+    <div class="hero-visual" style="display:flex;align-items:center;justify-content:center;">
+      <img src="images/logo-white-text.png" alt="WM Electrical Group" style="width:80%;max-width:340px;height:auto;">
     </div>
   </div>
   <svg class="divider" viewBox="0 0 1180 64" preserveAspectRatio="none">
@@ -262,12 +269,7 @@
 <section class="about" id="about">
   <div class="wrap about-grid">
     <div class="about-visual reveal">
-      <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10 20 L45 120 L75 55" stroke="#4FB3AC" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M75 55 L100 20 L125 55 L100 120 L75 55" stroke="#4FB3AC" stroke-width="6" stroke-linejoin="round"/>
-        <path d="M83 55 L108 20 L133 55 L108 120 L83 55" stroke="#FFFFFF" stroke-width="6" stroke-linejoin="round"/>
-        <path d="M133 55 L165 20 L190 120" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+      <img src="images/logo-white-text.png" alt="WM Electrical Group" style="width:65%;height:auto;">
     </div>
     <div class="reveal">
       <p class="eyebrow">About WM Electrical Group</p>
@@ -320,6 +322,19 @@
         <h3>Emergency Callouts</h3>
         <p>Fast response for power outages, faults and urgent repairs — day or night.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="gallery" id="gallery">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Our Work</p>
+      <h2>Recent jobs</h2>
+      <p>A look at some of our completed installs and upgrades across North Brisbane, the Sunshine Coast and Gympie.</p>
+    </div>
+    <div class="gal-grid" id="gal-grid">
+      <!-- Auto-populated by script below from images/work/work-1.jpg, work-2.jpg, etc. -->
     </div>
   </div>
 </section>
@@ -378,7 +393,7 @@
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-col">
-        <img src="images/logo-black.png" alt="WM Electrical Group" style="height:56px;width:auto;margin-bottom:18px;">
+        <img src="images/logo-white-text.png" alt="WM Electrical Group" style="height:56px;width:auto;margin-bottom:18px;display:block;">
         <p>Licensed electrical contracting for residential and commercial clients across the region.</p>
         <p>ABN: 00 000 000 000 &nbsp;|&nbsp; Lic: 000000</p>
       </div>
@@ -447,6 +462,37 @@
       if (data.googleUrl) link.href = data.googleUrl;
     })
     .catch(() => { /* keep placeholder reviews on any failure */ });
+  // Auto-populate "Our Work" gallery: checks images/work/work-1.jpg, work-2.jpg, etc.
+  // up to 24. Any that don't exist are simply skipped — no code changes needed,
+  // just upload files with these exact names to the images/work folder in GitHub.
+  (function loadGallery(){
+    const grid = document.getElementById('gal-grid');
+    const gallerySection = document.getElementById('gallery');
+    const MAX_PHOTOS = 24;
+    let loadedCount = 0;
+
+    for (let i = 1; i <= MAX_PHOTOS; i++) {
+      const src = `images/work/work-${i}.jpg`;
+      const item = document.createElement('div');
+      item.className = 'gal-item reveal in';
+      item.style.display = 'none';
+      const el = document.createElement('img');
+      el.alt = `WM Electrical Group completed job ${i}`;
+      el.loading = 'lazy';
+      item.appendChild(el);
+      grid.appendChild(item);
+
+      el.onload = () => { item.style.display = ''; loadedCount++; };
+      el.onerror = () => { item.remove(); };
+      el.src = src;
+    }
+
+    // If nothing loads within a couple seconds, hide the whole section
+    // rather than showing an empty "Our Work" heading with no photos.
+    setTimeout(() => {
+      if (grid.children.length === 0) gallerySection.style.display = 'none';
+    }, 2500);
+  })();
 </script>
 
 
