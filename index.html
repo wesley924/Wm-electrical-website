@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WM Electrical Group | North Brisbane, Sunshine Coast &amp; Gympie</title>
+<link rel="canonical" href="https://wmelectricalgroup.com">
+<meta property="og:url" content="https://wmelectricalgroup.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal:#2B2B2B;
+    --charcoal-2:#3A3A3A;
+    --teal:#4FB3AC;
+    --teal-dark:#3B8F89;
+    --white:#FFFFFF;
+    --offwhite:#F6F6F4;
+    --line:rgba(255,255,255,0.14);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',sans-serif;
+    color:var(--charcoal);
+    background:var(--white);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Space Grotesk',sans-serif;
+  }
+  .eyebrow{
+    font-family:'Inter',sans-serif;
+    font-size:.75rem;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--teal);
+    font-weight:600;
+  }
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+
+  /* NAVBAR */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid #ECECEA;
+  }
+  .navrow{display:flex;align-items:center;justify-content:space-between;height:78px;}
+  .logo-mark{display:flex;align-items:center;gap:10px;}
+  .logo-mark svg{height:30px;width:auto;}
+  .logo-text{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:.08em;font-size:.95rem;text-transform:uppercase;color:var(--charcoal);}
+  nav.links{display:flex;gap:36px;align-items:center;}
+  nav.links a{font-size:.9rem;font-weight:500;color:var(--charcoal-2);transition:color .2s;}
+  nav.links a:hover{color:var(--teal-dark);}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--teal);color:#fff;font-weight:600;font-size:.88rem;
+    padding:12px 22px;border-radius:2px;transition:background .2s, transform .2s;
+    border:none;cursor:pointer;
+  }
+  .btn:hover{background:var(--teal-dark);transform:translateY(-1px);}
+  .hamburger{display:none;background:none;border:none;cursor:pointer;padding:8px;}
+  .hamburger span{display:block;width:22px;height:2px;background:var(--charcoal);margin:5px 0;}
+
+  /* HERO */
+  .hero{
+    position:relative;
+    background:var(--charcoal);
+    color:#fff;
+    padding:100px 0 0;
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;
+    padding-bottom:120px;
+  }
+  .hero .eyebrow{color:var(--teal);}
+  .hero h1{
+    font-size:3.4rem;line-height:1.05;font-weight:700;margin:18px 0 22px;
+    letter-spacing:-.01em;
+  }
+  .hero h1 em{color:var(--teal);font-style:normal;}
+  .hero p.lead{font-size:1.05rem;color:#C9C9C7;max-width:480px;margin-bottom:34px;line-height:1.65;}
+  .hero-ctas{display:flex;gap:16px;flex-wrap:wrap;}
+  .btn-outline{
+    border:1px solid rgba(255,255,255,0.3);color:#fff;padding:12px 22px;
+    border-radius:2px;font-size:.88rem;font-weight:600;transition:border-color .2s,background .2s;
+  }
+  .btn-outline:hover{border-color:var(--teal);background:rgba(79,179,172,0.08);}
+  .hero-badges{display:flex;gap:28px;margin-top:56px;color:#9C9C9A;font-size:.8rem;flex-wrap:wrap;}
+  .hero-badges div{display:flex;align-items:center;gap:8px;}
+  .dot{width:6px;height:6px;background:var(--teal);border-radius:50%;flex-shrink:0;}
+
+  .hero-visual{position:relative;height:340px;}
+  .peak-svg{width:100%;height:100%;}
+
+  /* zigzag divider echoing the logo peaks */
+  .divider{
+    width:100%;height:64px;display:block;
+  }
+
+  /* LOGO STRIP */
+  .strip{background:var(--offwhite);padding:36px 0;border-bottom:1px solid #ECECEA;}
+  .strip .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;}
+  .strip-item{display:flex;align-items:center;gap:10px;color:#6B6B69;font-size:.82rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase;}
+  .strip-item svg{width:20px;height:20px;stroke:var(--teal);flex-shrink:0;}
+
+  /* SECTION generic */
+  section{padding:96px 0;}
+  .section-head{max-width:620px;margin-bottom:56px;}
+  .section-head h2{font-size:2.1rem;font-weight:700;margin-top:14px;line-height:1.15;}
+  .section-head p{color:#666;margin-top:16px;line-height:1.65;font-size:.98rem;}
+
+  /* ABOUT */
+  .about{background:var(--white);}
+  .about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:center;}
+  .about-visual{
+    aspect-ratio:1/1;background:var(--charcoal);border-radius:2px;position:relative;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .about-visual svg{width:60%;}
+  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px;}
+  .stat-row .num{font-family:'Space Grotesk',sans-serif;font-size:2.1rem;font-weight:700;color:var(--teal-dark);}
+  .stat-row .lbl{font-size:.8rem;color:#777;margin-top:4px;}
+
+  /* SERVICES */
+  .services{background:var(--offwhite);}
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  .svc-card{
+    background:#fff;border:1px solid #ECECEA;padding:34px 28px;border-radius:2px;
+    transition:transform .25s, box-shadow .25s, border-color .25s;
+  }
+  .svc-card:hover{transform:translateY(-4px);box-shadow:0 16px 32px rgba(0,0,0,0.06);border-color:var(--teal);}
+  .svc-icon{
+    width:44px;height:44px;border:1.5px solid var(--teal);
+    transform:rotate(45deg);
+    display:flex;align-items:center;justify-content:center;margin-bottom:22px;
+  }
+  .svc-icon svg{transform:rotate(-45deg);width:20px;height:20px;stroke:var(--teal-dark);}
+  .svc-card h3{font-size:1.1rem;font-weight:600;margin-bottom:10px;}
+  .svc-card p{font-size:.9rem;color:#6B6B69;line-height:1.6;}
+
+  /* TESTIMONIALS */
+  .testimonials{background:var(--charcoal);color:#fff;}
+  .testimonials .section-head p{color:#B7B7B5;}
+  .testimonials .eyebrow{color:var(--teal);}
+  .t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  .t-card{background:rgba(255,255,255,0.04);border:1px solid var(--line);padding:30px 26px;border-radius:2px;}
+  .t-quote{font-size:2rem;color:var(--teal);font-family:'Space Grotesk',sans-serif;line-height:1;margin-bottom:14px;}
+  .t-card p.body{font-size:.92rem;color:#D4D4D2;line-height:1.65;margin-bottom:22px;}
+  .stars{color:var(--teal);font-size:.85rem;margin-bottom:10px;letter-spacing:2px;}
+  .t-name{font-weight:600;font-size:.88rem;}
+  .t-loc{font-size:.78rem;color:#9C9C9A;}
+
+  /* CTA BAND */
+  .cta-band{
+    background:var(--teal);color:#fff;padding:64px 0;
+  }
+  .cta-flex{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px;}
+  .cta-flex h2{font-size:1.7rem;font-weight:700;}
+  .cta-flex p{font-size:.92rem;color:rgba(255,255,255,0.85);margin-top:6px;}
+  .cta-band .btn{background:#fff;color:var(--teal-dark);}
+  .cta-band .btn:hover{background:var(--charcoal);color:#fff;}
+
+  /* FOOTER */
+  footer{background:#232323;color:#B7B7B5;padding:64px 0 28px;}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px;}
+  .foot-col h4{color:#fff;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px;font-weight:600;}
+  .foot-col a, .foot-col p{display:block;font-size:.87rem;color:#A0A09E;margin-bottom:10px;line-height:1.6;}
+  .foot-col a:hover{color:var(--teal);}
+  .foot-bottom{border-top:1px solid #363636;padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:.78rem;color:#7C7C7A;}
+
+  /* reveal animation */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1;transform:none;transition:none;}
+  }
+
+  /* RESPONSIVE */
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr;padding-bottom:80px;}
+    .hero-visual{height:200px;order:-1;}
+    .hero h1{font-size:2.3rem;}
+    .about-grid{grid-template-columns:1fr;}
+    .svc-grid{grid-template-columns:1fr 1fr;}
+    .t-grid{grid-template-columns:1fr;}
+    .foot-grid{grid-template-columns:1fr 1fr;}
+    nav.links{display:none;}
+    .hamburger{display:block;}
+    .strip .wrap{justify-content:center;text-align:center;}
+  }
+  @media (max-width:560px){
+    .svc-grid{grid-template-columns:1fr;}
+    .foot-grid{grid-template-columns:1fr;}
+    .cta-flex{flex-direction:column;align-items:flex-start;}
+    .hero h1{font-size:1.9rem;}
+    section{padding:64px 0;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap navrow">
+    <div class="logo-mark">
+      <img src="images/logo-white.png" alt="WM Electrical Group" style="height:44px;width:auto;">
+    </div>
+    <nav class="links">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#contact">Contact</a>
+      <a href="https://book.servicem8.com/request_booking?uuid=e17eaf39-5cc1-4b2c-a133-2309fe6c07cb" target="_blank" rel="noopener" class="btn">Book Online</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<section class="hero" style="padding-top:0;">
+  <div class="wrap hero-grid" style="padding-top:80px;">
+    <div>
+      <p class="eyebrow">Licensed &amp; Insured — North Brisbane, Sunshine Coast &amp; Gympie</p>
+      <h1>Electrical work done <em>properly</em>, the first time.</h1>
+      <p class="lead">WM Electrical Group delivers safe, code-compliant electrical installation and repair for homes and businesses — straight-talking quotes, tidy work, and electricians who turn up when they say they will.</p>
+      <div class="hero-ctas">
+        <a href="https://book.servicem8.com/request_booking?uuid=e17eaf39-5cc1-4b2c-a133-2309fe6c07cb" target="_blank" rel="noopener" class="btn">Book Online</a>
+        <a href="tel:0421606446" class="btn-outline">Call 0421 606 446</a>
+      </div>
+      <div class="hero-badges">
+        <div><span class="dot"></span> Fully Licensed Electricians</div>
+        <div><span class="dot"></span> Public Liability Insured</div>
+        <div><span class="dot"></span> Same-Week Availability</div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <svg class="peak-svg" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 40 L110 260 L180 110" stroke="#4FB3AC" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+        <path d="M180 110 L230 40 L280 110 L230 260 L180 110" stroke="#4FB3AC" stroke-width="6" stroke-linejoin="round" opacity="0.9"/>
+        <path d="M195 110 L240 40 L285 110 L240 260 L195 110" stroke="#FFFFFF" stroke-width="6" stroke-linejoin="round" opacity="0.5"/>
+        <path d="M285 110 L345 40 L390 250" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+      </svg>
+    </div>
+  </div>
+  <svg class="divider" viewBox="0 0 1180 64" preserveAspectRatio="none">
+    <polyline points="0,64 120,10 240,64 360,20 480,64 600,10 720,64 840,20 960,64 1080,10 1180,64" fill="none" stroke="#4FB3AC" stroke-width="2" opacity="0.5"/>
+  </svg>
+</section>
+
+<div class="strip">
+  <div class="wrap">
+    <div class="strip-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 2l7 4v6c0 5-3 8-7 10-4-2-7-5-7-10V6l7-4z"/></svg> Licensed Electrical Contractor</div>
+    <div class="strip-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M4 12l6 6L20 6"/></svg> Master Electricians Australia</div>
+    <div class="strip-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg> 24/7 Emergency Callouts</div>
+    <a href="https://www.google.com/search?q=wm+electrical+group#ebo=0&mpd=~4325597533287484850/customers/reviews" target="_blank" rel="noopener" class="strip-item" style="text-decoration:none;"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 2l2.5 6.5L21 9l-5 4.5L17.5 21 12 17l-5.5 4L8 13.5 3 9l6.5-.5z"/></svg> 5-Star Rated on Google</a>
+  </div>
+</div>
+
+<section class="about" id="about">
+  <div class="wrap about-grid">
+    <div class="about-visual reveal">
+      <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 20 L45 120 L75 55" stroke="#4FB3AC" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M75 55 L100 20 L125 55 L100 120 L75 55" stroke="#4FB3AC" stroke-width="6" stroke-linejoin="round"/>
+        <path d="M83 55 L108 20 L133 55 L108 120 L83 55" stroke="#FFFFFF" stroke-width="6" stroke-linejoin="round"/>
+        <path d="M133 55 L165 20 L190 120" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="reveal">
+      <p class="eyebrow">About WM Electrical Group</p>
+      <h2>Local electricians, held to a higher standard.</h2>
+      <p style="color:#666;line-height:1.7;margin-top:16px;font-size:.98rem;">WM Electrical Group was built on a simple idea — do the job right, explain it clearly, and never cut corners on safety. From new switchboards to full commercial fit-outs, our licensed electricians bring the same care to every job, big or small.</p>
+      <div class="stat-row">
+        <div><div class="num">10+</div><div class="lbl">Years Experience</div></div>
+        <div><div class="num">500+</div><div class="lbl">Jobs Completed</div></div>
+        <div><div class="num">100%</div><div class="lbl">Licensed &amp; Insured</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">What We Do</p>
+      <h2>Electrical services for home and business</h2>
+      <p>From routine repairs to full-scale installations, our team is fully equipped and licensed to handle every part of the job.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc-card reveal">
+        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 22V12h6v10M3 10l9-7 9 7"/></svg></div>
+        <h3>Residential Electrical</h3>
+        <p>Rewiring, lighting, power points and repairs for homes of any age — done safely and to code.</p>
+      </div>
+      <div class="svc-card reveal">
+        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 21h18M6 21V7l6-4 6 4v14M9 9h1M14 9h1M9 13h1M14 13h1"/></svg></div>
+        <h3>Commercial Electrical</h3>
+        <p>Fit-outs, maintenance contracts and compliance work for offices, retail and industrial sites.</p>
+      </div>
+      <div class="svc-card reveal">
+        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="3" width="12" height="18" rx="1"/><path d="M9 7h6M9 11h6M9 15h6"/></svg></div>
+        <h3>Switchboard Upgrades</h3>
+        <p>Modern, safety-switch protected switchboards that meet current Australian standards.</p>
+      </div>
+      <div class="svc-card reveal">
+        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 22s7-4.5 7-11a7 7 0 10-14 0c0 6.5 7 11 7 11z"/><circle cx="12" cy="11" r="2.4"/></svg></div>
+        <h3>Safety Inspections</h3>
+        <p>Thorough electrical safety checks for peace of mind — required for sales, leases and insurance.</p>
+      </div>
+      <div class="svc-card reveal">
+        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 10h.01M8 14h.01M12 10h4M12 14h4"/></svg></div>
+        <h3>Data &amp; Network Cabling</h3>
+        <p>Structured cabling for offices and homes, built for reliable networks and future-proofing.</p>
+      </div>
+      <div class="svc-card reveal">
+        <div class="svc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg></div>
+        <h3>Emergency Callouts</h3>
+        <p>Fast response for power outages, faults and urgent repairs — day or night.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials" id="testimonials">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">Customer Reviews</p>
+      <h2>What our customers say</h2>
+      <p id="reviews-summary" style="display:none;"></p>
+    </div>
+    <div class="t-grid" id="t-grid">
+      <div class="t-card reveal">
+        <div class="t-quote">"</div>
+        <div class="stars">★★★★★</div>
+        <p class="body">Turned up on time, explained everything clearly and left the place spotless. Couldn't ask for more from an electrician.</p>
+        <div class="t-name">Sarah M.</div>
+        <div class="t-loc">North Brisbane, QLD</div>
+      </div>
+      <div class="t-card reveal">
+        <div class="t-quote">"</div>
+        <div class="stars">★★★★★</div>
+        <p class="body">Had an urgent switchboard issue and they had someone out within the hour. Genuinely great service.</p>
+        <div class="t-name">David R.</div>
+        <div class="t-loc">Sunshine Coast, QLD</div>
+      </div>
+      <div class="t-card reveal">
+        <div class="t-quote">"</div>
+        <div class="stars">★★★★★</div>
+        <p class="body">Fair pricing, no upselling, and the work looks great. This is our go-to electrician from now on.</p>
+        <div class="t-name">Priya K.</div>
+        <div class="t-loc">Gympie, QLD</div>
+      </div>
+    </div>
+    <p id="reviews-note" style="text-align:center;font-size:.78rem;color:#8a8a88;margin-top:18px;"></p>
+    <div style="text-align:center;margin-top:28px;">
+      <a id="google-reviews-link" href="https://www.google.com/search?q=wm+electrical+group#ebo=0&mpd=~4325597533287484850/customers/reviews" target="_blank" rel="noopener" class="btn-outline">Read All Reviews on Google</a>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band" id="contact">
+  <div class="wrap cta-flex">
+    <div>
+      <h2>Ready to get started?</h2>
+      <p>Get a free, no-obligation quote from a licensed local electrician.</p>
+    </div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;">
+      <a href="https://book.servicem8.com/request_booking?uuid=e17eaf39-5cc1-4b2c-a133-2309fe6c07cb" target="_blank" rel="noopener" class="btn" style="background:#fff;color:var(--teal-dark);">Book Online</a>
+      <a href="tel:0421606446" class="btn" style="background:var(--charcoal);color:#fff;">Call 0421 606 446</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <img src="images/logo-black.png" alt="WM Electrical Group" style="height:56px;width:auto;margin-bottom:18px;">
+        <p>Licensed electrical contracting for residential and commercial clients across the region.</p>
+        <p>ABN: 00 000 000 000 &nbsp;|&nbsp; Lic: 000000</p>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <a href="#about">About Us</a>
+        <a href="#services">Services</a>
+        <a href="#testimonials">Testimonials</a>
+      </div>
+      <div class="foot-col">
+        <h4>Services</h4>
+        <a href="#services">Residential</a>
+        <a href="#services">Commercial</a>
+        <a href="#services">Emergency Callouts</a>
+      </div>
+      <div class="foot-col">
+        <h4>Contact</h4>
+        <p><a href="tel:0421606446">0421 606 446</a></p>
+        <p><a href="mailto:wesley@wmelectricalgroup.com">wesley@wmelectricalgroup.com</a></p>
+        <p>North Brisbane, Sunshine Coast &amp; Gympie</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 WM Electrical Group PTY LTD. All rights reserved.</span>
+      <span>Site preview — placeholder content</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:0.15});
+  els.forEach(el=>io.observe(el));
+
+  // Fetch live Google reviews. If the API isn't configured yet (no env vars set
+  // in Vercel), this fails quietly and the placeholder reviews above stay as-is.
+  fetch('/api/reviews')
+    .then(r => r.json())
+    .then(data => {
+      if (data.error || !data.reviews || data.reviews.length === 0) return;
+
+      const grid = document.getElementById('t-grid');
+      const summary = document.getElementById('reviews-summary');
+      const note = document.getElementById('reviews-note');
+      const link = document.getElementById('google-reviews-link');
+
+      grid.innerHTML = data.reviews.map(r => `
+        <div class="t-card reveal in">
+          <div class="t-quote">"</div>
+          <div class="stars">${'★'.repeat(Math.round(r.rating))}${'☆'.repeat(5 - Math.round(r.rating))}</div>
+          <p class="body">${r.text ? r.text.replace(/</g,'&lt;') : ''}</p>
+          <div class="t-name">${r.author}</div>
+          <div class="t-loc">${r.relativeTime || ''}</div>
+        </div>
+      `).join('');
+
+      if (data.rating && data.totalReviews) {
+        summary.style.display = 'block';
+        summary.style.color = '#B7B7B5';
+        summary.style.marginTop = '10px';
+        summary.textContent = `${data.rating}★ average from ${data.totalReviews} Google reviews`;
+      }
+      note.textContent = 'Reviews sourced live from Google';
+      if (data.googleUrl) link.href = data.googleUrl;
+    })
+    .catch(() => { /* keep placeholder reviews on any failure */ });
+</script>
+
+
+</body>
+</html>
