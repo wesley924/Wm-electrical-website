@@ -127,10 +127,11 @@ module.exports = async (req, res) => {
     const html = buildReportHtml(data, LOGO_URL);
 
     const browser = await puppeteer.launch({
-      args: chromium.args,
-      executablePath: await chromium.executablePath(),
-      headless: chromium.headless,
-    });
+  args: [...chromium.args, "--disable-setuid-sandbox", "--no-sandbox"],
+  executablePath: await chromium.executablePath(),
+  headless: true,
+});
+
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: "networkidle0" });
     const pdfBuffer = await page.pdf({ format: "A4", printBackground: true });
