@@ -117,14 +117,14 @@ module.exports = async (req, res) => {
         const data = await buildDataFromFormResponse(formResponse);
 
 
-    if (req.body.debug) {
+       if (req.body.debug) {
       return res.status(200).json({
-        formFieldsSample: formFields.slice(0, 3),
         rawFieldData: formResponse.field_data,
         parsedAnswersSample: JSON.parse(formResponse.field_data || "[]").slice(0, 3),
         mappedData: data,
       });
     }
+
 
     const html = buildReportHtml(data, LOGO_URL);
 
