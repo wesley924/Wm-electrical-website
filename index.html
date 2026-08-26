@@ -481,27 +481,32 @@
   // Auto-populate "Our Work" gallery: checks images/work/work-1.jpg, work-2.jpg, etc.
   // up to 24. Any that don't exist are simply skipped — no code changes needed,
   // just upload files with these exact names to the images/work folder in GitHub.
-  (function loadGallery(){
+    (function loadGallery(){
     const grid = document.getElementById('gal-grid');
     const gallerySection = document.getElementById('gallery');
     const MAX_PHOTOS = 24;
-    let loadedCount = 0;
+    let foundAny = false;
 
     for (let i = 1; i <= MAX_PHOTOS; i++) {
       const src = `images/work/work-${i}.jpg`;
       const item = document.createElement('div');
       item.className = 'gal-item reveal in';
-      item.style.display = 'none';
       const el = document.createElement('img');
       el.alt = `WM Electrical Group completed job ${i}`;
-      el.loading = 'lazy';
+      el.decoding = 'async';
       item.appendChild(el);
       grid.appendChild(item);
 
-      el.onload = () => { item.style.display = ''; loadedCount++; };
+      el.onload = () => { foundAny = true; };
       el.onerror = () => { item.remove(); };
       el.src = src;
     }
+
+    setTimeout(() => {
+      if (!foundAny && grid.children.length === 0) gallerySection.style.display = 'none';
+    }, 4000);
+  })();
+
 
     // If nothing loads within a couple seconds, hide the whole section
     // rather than showing an empty "Our Work" heading with no photos.
