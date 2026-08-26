@@ -21,9 +21,13 @@
     <h1>Generate Inspection Report</h1>
     <label for="password">Password</label>
     <input type="password" id="password" autocomplete="current-password">
-    <label for="jobNumber">Job Number</label>
+        <label for="jobNumber">Job Number</label>
     <input type="text" id="jobNumber" placeholder="e.g. 1042">
+    <label style="display:flex; align-items:center; gap:6px; margin-top:14px; font-size:13px; color:#6b6b6b;">
+      <input type="checkbox" id="debugMode" style="width:auto;"> Debug mode (show raw data instead of PDF)
+    </label>
     <button id="generateBtn">Generate PDF</button>
+
     <div id="msg" class="msg"></div>
   </div>
 
