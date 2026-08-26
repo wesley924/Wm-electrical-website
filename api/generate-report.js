@@ -48,29 +48,38 @@ for (let i = 1; i <= 10; i++) {
 }
 
 async function buildDataFromFormResponse(formResponse, formFields) {
-  // Build a lookup: field_uuid -> label
   const labelByUuid = {};
   for (const f of formFields) {
     labelByUuid[f.uuid] = f.field_name || f.label;
   }
 
-  const data = {};
-  const photoAnswers = []; // collect { key, attachmentUuid } to resolve URLs after
+  let answers = [];
+  try {
+    answers = JSON.parse(formResponse.field_data || "[]");
+  } catch {
+    console.error("Could not parse field_data:", formResponse.field_data);
+  }
 
-  for (const answer of formResponse.field_responses || formResponse.answers || []) {
-    const label = labelByUuid[answer.form_field_uuid || answer.field_uuid];
+  const data = {};
+  const photoAnswers = [];
+
+  for (const answer of answers) {
+    const fieldUuid = answer.form_field_uuid || answer.field_uuid || answer.uuid;
+    const label = labelByUuid[fieldUuid];
     if (!label) continue;
     const key = FIELD_LABEL_MAP[label];
     if (!key) continue;
 
-    if (key.endsWith("_photo") && answer.attachment_uuid) {
-      photoAnswers.push({ key: `${key}_url`, attachmentUuid: answer.attachment_uuid });
+    const value = answer.value ?? answer.answer ?? answer.response ?? "";
+    const attachmentUuid = answer.attachment_uuid || answer.photo_uuid || null;
+
+    if (key.endsWith("_photo") && attachmentUuid) {
+      photoAnswers.push({ key: `${key}_url`, attachmentUuid });
     } else {
-      data[key] = answer.value || answer.answer || "";
+      data[key] = value;
     }
   }
 
-  // Resolve photo attachment UUIDs to actual URLs
   for (const p of photoAnswers) {
     try {
       data[p.key] = await getAttachmentUrl(p.attachmentUuid);
@@ -78,6 +87,10 @@ async function buildDataFromFormResponse(formResponse, formFields) {
       data[p.key] = null;
     }
   }
+
+  return data;
+}
+
 
   return data;
 }
