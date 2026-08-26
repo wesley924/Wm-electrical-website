@@ -50,10 +50,10 @@
     btn.textContent = 'Generating…';
 
     try {
-      const res = await fetch('/api/generate-report', {
+            const res = await fetch('/api/generate-report', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ jobNumber, password })
+        body: JSON.stringify({ jobNumber, password, debug: document.getElementById('debugMode').checked })
       });
 
       if (!res.ok) {
@@ -61,7 +61,15 @@
         throw new Error(err.error || 'Something went wrong');
       }
 
+      if (document.getElementById('debugMode').checked) {
+        const jsonData = await res.json();
+        document.body.innerHTML = '<pre style="padding:20px; font-size:11px; white-space:pre-wrap; word-break:break-all;">' +
+          JSON.stringify(jsonData, null, 2).replace(/</g, '&lt;') + '</pre>';
+        return;
+      }
+
       const blob = await res.blob();
+
       const url = URL.createObjectURL(blob);
       window.open(url, '_blank');
       msg.textContent = 'Report generated.';
