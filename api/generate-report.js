@@ -27,7 +27,9 @@ const FIELD_LABEL_MAP = {
   "Technician Name": "technician_name",
   "Any visual damage to switchboard & or switchgear?": "any_visual_damage",
   "List Visual Faults": "list_visual_faults",
-  "RCD's/ RCBO's present?": "rcds_rcbos_present",
+    "RCD’s/ RCBO’s present?": "rcds_rcbos_present",
+  "Switchboard Overview Photo": "switchboard_photo",
+
   "Push-Button Test Result": "pushbutton_test_result",
   "Are all alarms Interconnected?": "alarms_interconnected",
 };
@@ -46,12 +48,7 @@ for (let i = 1; i <= 10; i++) {
   FIELD_LABEL_MAP[`Defect ${i} Photo`] = `defect_${i}_photo`;
 }
 
-async function buildDataFromFormResponse(formResponse, formFields) {
-  const labelByUuid = {};
-  for (const f of formFields) {
-    labelByUuid[f.uuid] = f.field_name || f.label;
-  }
-
+async function buildDataFromFormResponse(formResponse) {
   let answers = [];
   try {
     answers = JSON.parse(formResponse.field_data || "[]");
@@ -63,17 +60,14 @@ async function buildDataFromFormResponse(formResponse, formFields) {
   const photoAnswers = [];
 
   for (const answer of answers) {
-    const fieldUuid = answer.form_field_uuid || answer.field_uuid || answer.uuid;
-    const label = labelByUuid[fieldUuid];
-    if (!label) continue;
+    const label = answer.Question;
     const key = FIELD_LABEL_MAP[label];
     if (!key) continue;
 
-    const value = answer.value ?? answer.answer ?? answer.response ?? "";
-    const attachmentUuid = answer.attachment_uuid || answer.photo_uuid || null;
+    const value = answer.Response ?? "";
 
-    if (key.endsWith("_photo") && attachmentUuid) {
-      photoAnswers.push({ key: `${key}_url`, attachmentUuid });
+    if (answer.FieldType === "Photo" && value) {
+      photoAnswers.push({ key: `${key}_url`, attachmentUuid: value });
     } else {
       data[key] = value;
     }
@@ -89,6 +83,7 @@ async function buildDataFromFormResponse(formResponse, formFields) {
 
   return data;
 }
+
 
 
 module.exports = async (req, res) => {
@@ -119,9 +114,8 @@ module.exports = async (req, res) => {
     // If a job could have multiple forms attached, pick the most recent one.
     const formResponseSummary = formResponses[formResponses.length - 1];
     const formResponse = await getFormResponse(formResponseSummary.uuid);
-    const formFields = await getFormFields(formResponseSummary.form_uuid);
+        const data = await buildDataFromFormResponse(formResponse);
 
-        const data = await buildDataFromFormResponse(formResponse, formFields);
 
     if (req.body.debug) {
       return res.status(200).json({
