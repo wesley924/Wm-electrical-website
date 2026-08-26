@@ -2,5 +2,8 @@
   "name": "wm-electrical-inspection-report",
   "version": "1.0.0",
   "private": true,
-  "dependencies": {}
+    "dependencies": {
+    "sharp": "0.33.4"
+  }
+
 }
