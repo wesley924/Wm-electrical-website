@@ -66,12 +66,22 @@ async function buildDataFromFormResponse(formResponse) {
 
     const value = answer.Response ?? "";
 
-    if (answer.FieldType === "Photo" && value) {
-      photoAnswers.push({ key: `${key}_url`, attachmentUuid: value });
+       if (answer.FieldType === "Photo" && value) {
+      const sizeProfile = key.startsWith("defect_") ? "large" : "small";
+      photoAnswers.push({ key: `${key}_url`, attachmentUuid: value, sizeProfile });
     } else {
       data[key] = value;
     }
   }
+
+  for (const p of photoAnswers) {
+    try {
+      data[p.key] = await getAttachmentUrl(p.attachmentUuid, p.sizeProfile);
+    } catch {
+      data[p.key] = null;
+    }
+  }
+
 
   for (const p of photoAnswers) {
     try {
