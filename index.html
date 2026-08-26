@@ -445,6 +445,7 @@
     entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
   },{threshold:0.15});
   els.forEach(el=>io.observe(el));
+setTimeout(() => { els.forEach(el => el.classList.add('in')); }, 1500);
 
   // Fetch live Google reviews. If the API isn't configured yet (no env vars set
   // in Vercel), this fails quietly and the placeholder reviews above stay as-is.
