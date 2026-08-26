@@ -2,8 +2,5 @@
   "name": "wm-electrical-inspection-report",
   "version": "1.0.0",
   "private": true,
-  "dependencies": {
-    "@sparticuz/chromium": "126.0.0",
-    "puppeteer-core": "22.13.1"
-  }
+  "dependencies": {}
 }
