@@ -125,7 +125,7 @@ module.exports = async (req, res) => {
 
     const html = buildReportHtml(data, LOGO_URL);
 
-       const html = buildReportHtml(data, LOGO_URL);
+       
 
     const pdfShiftKey = process.env.PDFSHIFT_API_KEY;
     if (!pdfShiftKey) {
