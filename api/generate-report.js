@@ -3,8 +3,7 @@
 // Body: { jobNumber: "1234", password: "your-shared-secret" }
 // Returns: application/pdf
 
-const chromium = require("@sparticuz/chromium");
-const puppeteer = require("puppeteer-core");
+
 const {
   getJobByNumber,
   getFormResponsesForJob,
@@ -126,16 +125,34 @@ module.exports = async (req, res) => {
 
     const html = buildReportHtml(data, LOGO_URL);
 
-    const browser = await puppeteer.launch({
-  args: [...chromium.args, "--disable-setuid-sandbox", "--no-sandbox"],
-  executablePath: await chromium.executablePath(),
-  headless: true,
-});
+       const html = buildReportHtml(data, LOGO_URL);
 
-    const page = await browser.newPage();
-    await page.setContent(html, { waitUntil: "networkidle0" });
-    const pdfBuffer = await page.pdf({ format: "A4", printBackground: true });
-    await browser.close();
+    const pdfShiftKey = process.env.PDFSHIFT_API_KEY;
+    if (!pdfShiftKey) {
+      throw new Error("Missing PDFSHIFT_API_KEY environment variable");
+    }
+    const authHeader = "Basic " + Buffer.from(`api:${pdfShiftKey}`).toString("base64");
+
+    const pdfShiftRes = await fetch("https://api.pdfshift.io/v3/convert/pdf", {
+      method: "POST",
+      headers: {
+        Authorization: authHeader,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        source: html,
+        landscape: false,
+        use_print: true,
+      }),
+    });
+
+    if (!pdfShiftRes.ok) {
+      const errBody = await pdfShiftRes.text().catch(() => "");
+      throw new Error(`PDFShift conversion failed: ${pdfShiftRes.status} ${errBody}`);
+    }
+
+    const pdfArrayBuffer = await pdfShiftRes.arrayBuffer();
+    const pdfBuffer = Buffer.from(pdfArrayBuffer);
 
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
@@ -143,6 +160,7 @@ module.exports = async (req, res) => {
       `inline; filename="Inspection Report - Job ${jobNumber}.pdf"`
     );
     return res.status(200).send(pdfBuffer);
+
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: err.message });
