@@ -67,12 +67,15 @@ async function buildDataFromFormResponse(formResponse) {
 
     const value = answer.Response ?? "";
 
-       if (answer.FieldType === "Photo" && value) {
-      const sizeProfile = key.startsWith("defect_") ? "large" : "small";
-      photoAnswers.push({ key: `${key}_url`, attachmentUuid: value, sizeProfile });
-    } else {
-      data[key] = value;
-    }
+      if (key === "signature" && value) {
+  photoAnswers.push({ key: `${key}_url`, attachmentUuid: value, sizeProfile: "small" });
+} else if (answer.FieldType === "Photo" && value) {
+  const sizeProfile = key.startsWith("defect_") ? "large" : "small";
+  photoAnswers.push({ key: `${key}_url`, attachmentUuid: value, sizeProfile });
+} else {
+  data[key] = value;
+}
+
   }
 
   for (const p of photoAnswers) {
