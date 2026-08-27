@@ -31,6 +31,8 @@ const FIELD_LABEL_MAP = {
 
   "Push-Button Test Result": "pushbutton_test_result",
   "Are all alarms Interconnected?": "alarms_interconnected",
+  "Sign Off": "signature",
+
 };
 
 for (let i = 1; i <= 8; i++) {
