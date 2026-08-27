@@ -15,8 +15,7 @@ const { buildReportHtml } = require("../lib/report-template");
 
 // Logo is served as a normal static file from /public/assets/logo.png.
 // SITE_URL should be your live domain, e.g. https://wmelectricalgroup.com
-const LOGO_URL = `${process.env.SITE_URL || "https://wmelectricalgroup.com"}/assets/logo.png`;
-
+const LOGO_URL = `${process.env.SITE_URL || "https://wmelectricalgroup.com"}/public/assets/logo.png`;
 // Maps ServiceM8's Form Field labels (exactly as they appear in your form) to the
 // short keys used in report-template.js. Update the left-hand label strings if yours differ.
 const FIELD_LABEL_MAP = {
