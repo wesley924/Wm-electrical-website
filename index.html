@@ -508,14 +508,6 @@ setTimeout(() => { els.forEach(el => el.classList.add('in')); }, 1500);
       if (!foundAny && grid.children.length === 0) gallerySection.style.display = 'none';
     }, 4000);
   })();
-
-
-    // If nothing loads within a couple seconds, hide the whole section
-    // rather than showing an empty "Our Work" heading with no photos.
-    setTimeout(() => {
-      if (grid.children.length === 0) gallerySection.style.display = 'none';
-    }, 2500);
-  })();
 </script>
 
 
