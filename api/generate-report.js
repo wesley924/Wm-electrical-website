@@ -24,15 +24,27 @@ const FIELD_LABEL_MAP = {
   "Tenant Name (If occupied)": "tenant_name",
   "Inspection Date": "inspection_date",
   "Technician Name": "technician_name",
-  "Any visual damage to switchboard & or switchgear?": "any_visual_damage",
-  "List Visual Faults": "list_visual_faults",
-    "RCD’s/ RCBO’s present?": "rcds_rcbos_present",
   "Switchboard Overview Photo": "switchboard_photo",
-
-  "Push-Button Test Result": "pushbutton_test_result",
+  "Faulty safety switch(es)": "faulty_safety_switches",
+  "Is there a Sub-board on site?": "subboard_present",
+  "Sub-board Overview Photo": "subboard_photo",
   "Are all alarms Interconnected?": "alarms_interconnected",
+  "Which Smoke alarms did not sound?": "smoke_alarms_not_sound",
+  "Does the property comply with Smoke Alarm Regulations QLD?": "smoke_alarm_compliant",
+  "What Is needed for Smoke alarm compliance?": "smoke_alarm_compliance_needed",
+  "Suggestion to meet compliance.": "smoke_alarm_compliance_suggestion",
+  "Suggestions based on inspection": "suggestions",
   "Sign Off": "signature",
+};
 
+// These 4 questions are asked TWICE on the form - once for Main Switchboard,
+// once for Sub-board - using identical wording both times. We tell them apart
+// by ORDER: first time we see the label = main switchboard, second time = sub-board.
+const DUPLICATE_LABELS = {
+  "Any visual damage to switchboard & or switchgear?": ["any_visual_damage", "subboard_any_visual_damage"],
+  "List Visual Faults": ["list_visual_faults", "subboard_list_visual_faults"],
+  "RCD's/ RCBO's present?": ["rcds_rcbos_present", "subboard_rcds_rcbos_present"],
+  "Push-Button Test Result": ["pushbutton_test_result", "subboard_pushbutton_test_result"],
 };
 
 for (let i = 1; i <= 8; i++) {
@@ -40,14 +52,17 @@ for (let i = 1; i <= 8; i++) {
   FIELD_LABEL_MAP[`Smoke Alarm ${i} Install/ Manufacturing Date`] = `smoke_alarm_${i}_install_date`;
   FIELD_LABEL_MAP[`Smoke Alarm ${i} Result`] = `smoke_alarm_${i}_result`;
   FIELD_LABEL_MAP[`Smoke Alarm ${i} Non-Compliance Reason`] = `smoke_alarm_${i}_noncompliance_reason`;
-  FIELD_LABEL_MAP[`Smoke Alarm ${i} Photo`] = `smoke_alarm_${i}_photo`; // resolved to _photo_url below
+  FIELD_LABEL_MAP[`Smoke Alarm ${i} Photo`] = `smoke_alarm_${i}_photo`;
 }
-for (let i = 1; i <= 10; i++) {
+for (let i = 1; i <= 20; i++) {
   FIELD_LABEL_MAP[`Defect ${i}`] = `defect_${i}`;
   FIELD_LABEL_MAP[`Defect ${i} severity`] = `defect_${i}_severity`;
-  FIELD_LABEL_MAP[`Defect ${i} Severity`] = `defect_${i}_severity`; // form has inconsistent casing
+  FIELD_LABEL_MAP[`Defect ${i} Severity`] = `defect_${i}_severity`;
   FIELD_LABEL_MAP[`Defect ${i} Photo`] = `defect_${i}_photo`;
+  FIELD_LABEL_MAP[`Defect ${i} solution`] = `defect_${i}_solution`;
+  FIELD_LABEL_MAP[`Defect ${i} Solution`] = `defect_${i}_solution`;
 }
+
 
 async function buildDataFromFormResponse(formResponse) {
   let answers = [];
@@ -59,23 +74,32 @@ async function buildDataFromFormResponse(formResponse) {
 
   const data = {};
   const photoAnswers = [];
+  const duplicateLabelCounts = {};
 
   for (const answer of answers) {
     const label = answer.Question;
-    const key = FIELD_LABEL_MAP[label];
+    let key;
+
+    if (DUPLICATE_LABELS[label]) {
+      const seen = duplicateLabelCounts[label] || 0;
+      const options = DUPLICATE_LABELS[label];
+      key = options[seen] || options[options.length - 1];
+      duplicateLabelCounts[label] = seen + 1;
+    } else {
+      key = FIELD_LABEL_MAP[label];
+    }
     if (!key) continue;
 
     const value = answer.Response ?? "";
 
-      if (key === "signature" && value) {
-  photoAnswers.push({ key: `${key}_url`, attachmentUuid: value, sizeProfile: "small" });
-} else if (answer.FieldType === "Photo" && value) {
-  const sizeProfile = key.startsWith("defect_") ? "large" : "small";
-  photoAnswers.push({ key: `${key}_url`, attachmentUuid: value, sizeProfile });
-} else {
-  data[key] = value;
-}
-
+    if (key === "signature" && value) {
+      photoAnswers.push({ key: `${key}_url`, attachmentUuid: value, sizeProfile: "small" });
+    } else if (answer.FieldType === "Photo" && value) {
+      const sizeProfile = key.startsWith("defect_") ? "large" : "small";
+      photoAnswers.push({ key: `${key}_url`, attachmentUuid: value, sizeProfile });
+    } else {
+      data[key] = value;
+    }
   }
 
   for (const p of photoAnswers) {
@@ -86,17 +110,9 @@ async function buildDataFromFormResponse(formResponse) {
     }
   }
 
-
-  for (const p of photoAnswers) {
-    try {
-      data[p.key] = await getAttachmentUrl(p.attachmentUuid);
-    } catch {
-      data[p.key] = null;
-    }
-  }
-
   return data;
 }
+
 
 
 
