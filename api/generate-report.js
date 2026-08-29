@@ -43,7 +43,7 @@ const FIELD_LABEL_MAP = {
 const DUPLICATE_LABELS = {
   "Any visual damage to switchboard & or switchgear?": ["any_visual_damage", "subboard_any_visual_damage"],
   "List Visual Faults": ["list_visual_faults", "subboard_list_visual_faults"],
-  "RCD's/ RCBO's present?": ["rcds_rcbos_present", "subboard_rcds_rcbos_present"],
+  "RCD’s/ RCBO’s present?": ["rcds_rcbos_present", "subboard_rcds_rcbos_present"],
   "Push-Button Test Result": ["pushbutton_test_result", "subboard_pushbutton_test_result"],
 };
 
