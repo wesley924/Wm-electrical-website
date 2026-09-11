@@ -514,7 +514,14 @@ setTimeout(() => { els.forEach(el => el.classList.add('in')); }, 1500);
       const item = document.createElement('div');
       item.className = 'gal-item reveal in';
       const el = document.createElement('img');
-      el.alt = `WM Electrical Group completed job ${i}`;
+      const descriptions = {
+        13: 'myenergi Zappi electric vehicle charger installation',
+        14: 'Electrical installation in a modern living room',
+        15: 'Residential electrical switchboard with labelled circuits',
+        16: 'Outdoor living area with ceiling fan and poolside lighting',
+        17: 'Rooftop solar panel installation',
+      };
+      el.alt = descriptions[i] || `WM Electrical Group completed job ${i}`;
       el.decoding = 'async';
       item.appendChild(el);
       grid.appendChild(item);
